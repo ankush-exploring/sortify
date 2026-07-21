@@ -1,0 +1,72 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
+import CheckAuth from "./components/check-auth.jsx";
+import Navbar from "./components/navbar.jsx";
+import Tickets from "./pages/tickets.jsx";
+import TicketDetailsPage from "./pages/ticket.jsx";
+import Login from "./pages/login.jsx";
+import Signup from "./pages/signup.jsx";
+import Admin from "./pages/admin.jsx";
+
+function Layout({ children }) {
+  return (
+    <>
+      <Navbar />
+      <main>{children}</main>
+    </>
+  );
+}
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <BrowserRouter>
+      <ThemeProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <CheckAuth protected={true}>
+                <Layout><Tickets /></Layout>
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/tickets/:id"
+            element={
+              <CheckAuth protected={true}>
+                <Layout><TicketDetailsPage /></Layout>
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <CheckAuth protected={false}>
+                <Layout><Login /></Layout>
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <CheckAuth protected={false}>
+                <Layout><Signup /></Layout>
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <CheckAuth protected={true}>
+                <Layout><Admin /></Layout>
+              </CheckAuth>
+            }
+          />
+        </Routes>
+      </ThemeProvider>
+    </BrowserRouter>
+  </StrictMode>
+);

@@ -3,97 +3,90 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-html {
+:root {
   --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --surface: #fafafa;
-  --border: #e5e5e5;
-  --border-subtle: #f0f0f0;
-  --text-primary: #0a0a0a;
-  --text-secondary: #737373;
-  --accent: #000000;
+  --bg-secondary: #f6f8fa;
+  --surface: #ffffff;
+  --border: #d0d7de;
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+  --accent: #1f2328;
   --accent-text: #ffffff;
-  --shade-1: #0a0a0a;
-  --shade-2: #1a1a1a;
-  --shade-3: #333333;
-  --shade-4: #525252;
-  --shade-5: #737373;
-  --shade-6: #a3a3a3;
-  --shade-7: #d4d4d4;
-  --shade-8: #e5e5e5;
-  --shade-9: #f5f5f5;
-  --pill-critical-fill: #0a0a0a;
+  --accent-hover: #333;
+  --shade-1: #1f2328;
+  --shade-2: #333;
+  --shade-3: #555;
+  --shade-4: #656d76;
+  --shade-5: #8b949e;
+  --shade-6: #afb8c1;
+  --shade-7: #d0d7de;
+  --shade-8: #e8ecf0;
+  --shade-9: #f6f8fa;
+  --pill-critical-fill: #1f2328;
   --pill-critical-text: #ffffff;
-  --pill-high-fill: #333333;
+  --pill-high-fill: #656d76;
   --pill-high-text: #ffffff;
-  --pill-medium-border: #a3a3a3;
-  --pill-medium-text: #333333;
-  --pill-low-text: #a3a3a3;
-  --sidebar-bg: #fafafa;
-  --sidebar-border: #e5e5e5;
-  --table-hover: #f5f5f5;
-  --skeleton-base: #e5e5e5;
-  --skeleton-shine: #f5f5f5;
+  --pill-medium-border: #d0d7de;
+  --pill-medium-text: #1f2328;
+  --pill-low-text: #8b949e;
+  --sidebar-bg: #f6f8fa;
+  --sidebar-border: #d0d7de;
+  --table-hover: #f6f8fa;
+  --skeleton-base: #e8ecf0;
+  --skeleton-shine: #f6f8fa;
+  --btn-hover: #f3f4f6;
 }
 
-html[data-theme="dark"] {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #171717;
-  --surface: #1c1c1c;
-  --border: #2e2e2e;
-  --border-subtle: #232323;
-  --text-primary: #f5f5f5;
-  --text-secondary: #737373;
-  --accent: #ffffff;
-  --accent-text: #0a0a0a;
-  --shade-1: #f5f5f5;
-  --shade-2: #d4d4d4;
-  --shade-3: #a3a3a3;
-  --shade-4: #737373;
-  --shade-5: #525252;
-  --shade-6: #333333;
-  --shade-7: #1a1a1a;
-  --shade-8: #171717;
-  --shade-9: #0a0a0a;
-  --pill-critical-fill: #f5f5f5;
-  --pill-critical-text: #0a0a0a;
-  --pill-high-fill: #d4d4d4;
-  --pill-high-text: #0a0a0a;
-  --pill-medium-border: #525252;
-  --pill-medium-text: #a3a3a3;
-  --pill-low-text: #525252;
-  --sidebar-bg: #111111;
-  --sidebar-border: #1c1c1c;
-  --table-hover: #171717;
-  --skeleton-base: #2e2e2e;
-  --skeleton-shine: #1c1c1c;
+[data-theme="dark"] {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --surface: #0d1117;
+  --border: #30363d;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --accent: #e6edf3;
+  --accent-text: #0d1117;
+  --accent-hover: #ccc;
+  --shade-1: #e6edf3;
+  --shade-2: #ccc;
+  --shade-3: #8b949e;
+  --shade-4: #656d76;
+  --shade-5: #555;
+  --shade-6: #333;
+  --shade-7: #21262d;
+  --shade-8: #161b22;
+  --shade-9: #0d1117;
+  --pill-critical-fill: #e6edf3;
+  --pill-critical-text: #0d1117;
+  --pill-high-fill: #8b949e;
+  --pill-high-text: #0d1117;
+  --pill-medium-border: #30363d;
+  --pill-medium-text: #8b949e;
+  --pill-low-text: #555;
+  --sidebar-bg: #161b22;
+  --sidebar-border: #21262d;
+  --table-hover: #161b22;
+  --skeleton-base: #21262d;
+  --skeleton-shine: #161b22;
+  --btn-hover: #21262d;
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base) 25%,
-    var(--skeleton-shine) 50%,
-    var(--skeleton-base) 75%
-  );
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shine) 50%, var(--skeleton-base) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }

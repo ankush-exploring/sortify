@@ -1,13 +1,21 @@
-import { createAgent, gemini } from "@inngest/agent-kit";
-
 const analyzeTicket = async (ticket) => {
+  let createAgent, gemini;
+  try {
+    const mod = await import("@inngest/agent-kit");
+    createAgent = mod.createAgent;
+    gemini = mod.gemini;
+  } catch {
+    console.log("AI agent-kit not available");
+    return null;
+  }
+
   const supportAgent = createAgent({
     model: gemini({
       model: "gemini-1.5-flash-8b",
       apiKey: process.env.GEMINI_API_KEY,
     }),
     name: "Sortify AI Triage Assistant",
-    system: `You are an expert AI assistant that processes technical support tickets. 
+    system: `You are an expert AI assistant that processes technical support tickets.
 
 Your job is to:
 1. Summarize the issue.
@@ -57,7 +65,7 @@ Ticket information:
     return JSON.parse(jsonString);
   } catch (e) {
     console.log("Failed to parse JSON from AI response" + e.message);
-    return null; // watch out for this
+    return null;
   }
 };
 

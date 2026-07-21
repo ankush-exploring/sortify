@@ -1,7 +1,6 @@
 import brcypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-import { inngest } from "../inngest/client.js";
 
 export const signup = async (req, res) => {
   const { email, password, skills = [] } = req.body;
@@ -10,15 +9,6 @@ export const signup = async (req, res) => {
     const existing = await User.countDocuments();
     const role = existing === 0 ? "admin" : "user";
     const user = await User.create({ email, password: hashed, skills, role });
-
-    //Fire inngest event
-
-    await inngest.send({
-      name: "user/signup",
-      data: {
-        email,
-      },
-    });
 
     const token = jwt.sign(
       { _id: user._id, role: user.role },

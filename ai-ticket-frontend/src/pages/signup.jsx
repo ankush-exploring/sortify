@@ -17,7 +17,7 @@ export default function SignupPage() {
         alert("Server URL not configured. Please set VITE_SERVER_URL.");
         return;
       }
-      const res = await fetch(`${baseUrl}/auth/signup`, {
+      const res = await fetch(`${baseUrl}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

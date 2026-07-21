@@ -44,7 +44,7 @@ export default function TicketDetailsPage() {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/tickets/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/tickets/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

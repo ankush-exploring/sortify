@@ -7,7 +7,9 @@ export const signup = async (req, res) => {
   const { email, password, skills = [] } = req.body;
   try {
     const hashed = await brcypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed, skills });
+    const existing = await User.countDocuments();
+    const role = existing === 0 ? "admin" : "user";
+    const user = await User.create({ email, password: hashed, skills, role });
 
     //Fire inngest event
 

@@ -12,7 +12,12 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth/signup`, {
+      const baseUrl = import.meta.env.VITE_SERVER_URL;
+      if (!baseUrl) {
+        alert("Server URL not configured. Please set VITE_SERVER_URL.");
+        return;
+      }
+      const res = await fetch(`${baseUrl}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -25,8 +30,9 @@ export default function SignupPage() {
       } else {
         alert(data.message || "Signup failed");
       }
-    } catch {
-      alert("Something went wrong");
+    } catch (err) {
+      console.error("Signup error:", err);
+      alert("Something went wrong. Check console for details.");
     } finally {
       setLoading(false);
     }

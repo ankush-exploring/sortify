@@ -12,7 +12,12 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth/login`, {
+      const baseUrl = import.meta.env.VITE_SERVER_URL;
+      if (!baseUrl) {
+        alert("Server URL not configured. Please set VITE_SERVER_URL.");
+        return;
+      }
+      const res = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -25,8 +30,9 @@ export default function LoginPage() {
       } else {
         alert(data.message || "Login failed");
       }
-    } catch {
-      alert("Something went wrong");
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Something went wrong. Check console for details.");
     } finally {
       setLoading(false);
     }

@@ -159,12 +159,10 @@ cp .env.sample .env
 |----------|-------------|---------|
 | `MONGO_URI` | MongoDB connection string | `mongodb://localhost:27017/sortify` |
 | `JWT_SECRET` | Secret key for signing tokens | `your-secret-key` |
-| `MAILTRAP_SMTP_HOST` | Mailtrap SMTP host | `sandbox.smtp.mailtrap.io` |
-| `MAILTRAP_SMTP_PORT` | Mailtrap SMTP port | `2525` |
-| `MAILTRAP_SMTP_USER` | Mailtrap user | |
-| `MAILTRAP_SMTP_PASS` | Mailtrap password | |
+| `RESEND_API_KEY` | Resend API key for email (get from [resend.com](https://resend.com)) | `re_...` |
 | `GEMINI_API_KEY` | Google Gemini API key | |
 | `APP_URL` | Application base URL | `http://localhost:3000` |
+| `RESEND_FROM` | (Optional) Verified sender address | `Sortify <no-reply@yourdomain.com>` |
 
 ```bash
 # Start the API server (http://localhost:3000)

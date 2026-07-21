@@ -1,28 +1,27 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+const fromAddress =
+  process.env.RESEND_FROM || "Sortify <onboarding@resend.dev>";
 
 export const sendMail = async (to, subject, text) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.MAILTRAP_SMTP_HOST,
-      port: process.env.MAILTRAP_SMTP_PORT,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.MAILTRAP_SMTP_USER,
-        pass: process.env.MAILTRAP_SMTP_PASS,
-      },
-    });
-
-    const info = await transporter.sendMail({
-      from: '"Sortify" <no-reply@sortify.app>',
+    const { data, error } = await resend.emails.send({
+      from: fromAddress,
       to,
       subject,
       text,
     });
 
-    console.log("Message sent:", info.messageId);
-    return info;
+    if (error) {
+      console.error("Resend error", error);
+      throw error;
+    }
+
+    console.log("Email sent:", data?.id);
+    return data;
   } catch (error) {
-    console.error("❌ Mail error", error.message);
+    console.error("Mail error", error.message);
     throw error;
   }
 };

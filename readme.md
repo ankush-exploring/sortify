@@ -50,7 +50,7 @@
 | 🎯 | **Smart assignment** | Matches tickets to moderators whose skills best fit the issue; falls back to admin if no match |
 | 🔐 | **Role-based access** | Three tiers — User (submit tickets), Moderator (resolve tickets), Admin (manage users, roles, skills) |
 | ⚡ | **Async background jobs** | Ticket processing, AI analysis, and email notifications run via Inngest — no blocking |
-| 📧 | **Automated emails** | Welcome email on signup, assignment notification to matched moderators (via Nodemailer + Mailtrap) |
+| 📧 | **Automated emails** | Welcome email on signup, assignment notification to matched moderators (via Resend) |
 | 🌗 | **Light / dark theme** | Full monochrome theme toggle with `localStorage` persistence — no color accents, just grayscale |
 
 ---
@@ -82,7 +82,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Google_Gemini-000000?style=for-the-badge&logo=googlegemini" />
   <img src="https://img.shields.io/badge/Inngest-000000?style=for-the-badge&logo=inngest" />
-  <img src="https://img.shields.io/badge/Mailtrap-000000?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Resend-000000?style=for-the-badge" />
 </p>
 
 ---
@@ -91,31 +91,30 @@
 
 ```mermaid
 flowchart LR
-  A["👤 User"] -->|submits ticket| B["🌐 React Frontend"]
-  B -->|POST /api/tickets| C["⚙️ Express API"]
-  C -->|store| D["🗄️ MongoDB"]
-  C -->|fire event| E["⏳ Inngest"]
+  A[User] -->|submits ticket| B[React Frontend]
+  B -->|POST /api/tickets| C[Express API]
+  C -->|store| D[MongoDB]
+  C -->|background| E[AI Processing]
 
-  E -->|on-ticket-created| F["🤖 Gemini AI"]
-  F -->|priority, skills, notes| C
+  E -->|Gemini| F[Priority / Skills / Notes]
+  F --> C
 
-  E -->|assign-moderator| G["🎯 Match by skill"]
-  G -->|found| H["📧 Email notification"]
-  G -->|not found| I["🔁 Fallback to admin"]
+  E -->|match by skill| G[Find Moderator]
+  G -->|found| H[Email Notification]
+  G -->|not found| I[Fallback to Admin]
   I --> H
 
-  H -->|ticket assigned| A
-  H --> J["👨‍💻 Moderator / Admin"]
+  H -->|assigned| J[Moderator / Admin]
   J -->|view & resolve| B
 ```
 
 **Flow summary:**
 
 1. User creates a ticket via the React frontend
-2. Express API stores it in MongoDB and fires an Inngest event
-3. Inngest triggers AI analysis (Gemini) — generates priority, skill tags, helpful notes
+2. Express API stores it in MongoDB and triggers AI analysis in background
+3. Gemini AI generates priority, skill tags, and helpful notes
 4. System matches a moderator by skill (regex-based), falling back to admin
-5. Assigned moderator receives an email notification
+5. Assigned moderator receives an email notification (if Resend is configured)
 6. Moderator views, updates, and resolves the ticket
 
 ---
@@ -129,7 +128,7 @@ flowchart LR
 | Node.js | v14+ | Runtime |
 | MongoDB | any recent | Database |
 | Gemini API key | — | AI analysis (get from [Google AI Studio](https://aistudio.google.com/)) |
-| Mailtrap account | free tier | Email testing (SMTP credentials from [Mailtrap](https://mailtrap.io/)) |
+| Resend API key | free tier | Email delivery (get from [Resend](https://resend.com)) |
 
 ### Backend setup
 
@@ -359,9 +358,9 @@ kill -9 <PID>
 
 ### Email not sending
 
-- Double-check Mailtrap SMTP credentials in `.env`
-- Verify `MAILTRAP_SMTP_HOST`, `MAILTRAP_SMTP_PORT`, `MAILTRAP_SMTP_USER`, `MAILTRAP_SMTP_PASS`
-- Check the Mailtrap inbox — emails are not delivered to real addresses in dev mode
+- Verify `RESEND_API_KEY` is set in `.env`
+- Check [Resend dashboard](https://resend.com) for delivery logs
+- In dev mode, emails use `onboarding@resend.dev` by default — no domain verification needed
 
 ### Build fails on frontend
 
@@ -400,6 +399,6 @@ Built with:
 
 - [Inngest](https://www.inngest.com/) — background job processing and event-driven workflows
 - [Google Gemini](https://deepmind.google/technologies/gemini/) — AI-powered ticket analysis
-- [Mailtrap](https://mailtrap.io/) — email testing sandbox
+- [Resend](https://resend.com/) — email delivery API
 - [MongoDB](https://www.mongodb.com/) — database
 - [daisyUI](https://daisyui.com/) — UI component library for Tailwind CSS

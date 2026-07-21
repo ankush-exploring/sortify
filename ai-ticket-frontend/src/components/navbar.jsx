@@ -17,7 +17,11 @@ export default function Navbar() {
   return (
     <header className="border-b border-[var(--border)] bg-[var(--surface)]">
       <div className="px-4 h-13 flex items-center justify-between max-w-7xl mx-auto">
-        <Link to="/" className="text-base font-semibold text-[var(--text-primary)]">
+        <Link to="/" className="flex items-center gap-2 text-base font-semibold text-[var(--text-primary)]">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="24" height="24" rx="6" stroke="currentColor" strokeWidth="2" fill="none"/>
+            <path d="M9 10h10M9 14h7M9 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
           Sortify
         </Link>
         <div className="flex items-center gap-3">

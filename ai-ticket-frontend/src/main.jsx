@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import CheckAuth from "./components/check-auth.jsx";
 import Navbar from "./components/navbar.jsx";
+import Footer from "./components/Footer.jsx";
 import Tickets from "./pages/tickets.jsx";
 import TicketDetailsPage from "./pages/ticket.jsx";
 import Login from "./pages/login.jsx";
@@ -13,10 +14,11 @@ import Admin from "./pages/admin.jsx";
 
 function Layout({ children }) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main>{children}</main>
-    </>
+      <main className="flex-1">{children}</main>
+      <Footer />
+    </div>
   );
 }
 

@@ -392,13 +392,7 @@ npm run build
 - [ ] Ticket ownership/visibility enforcement (users see only their own tickets)
 - [ ] Unit and integration tests
 
----
 
-## Contributing
-
-This project was built as part of a video course series ([Chaicode](https://www.youtube.com/@chaiaurcode)) and the code is provided as-is alongside the tutorials. We are not currently accepting external contributions.
-
----
 
 ## License & Acknowledgments
 

@@ -11,6 +11,8 @@ import TicketDetailsPage from "./pages/ticket.jsx";
 import Login from "./pages/login.jsx";
 import Signup from "./pages/signup.jsx";
 import Admin from "./pages/admin.jsx";
+import Terms from "./pages/Terms.jsx";
+import Privacy from "./pages/Privacy.jsx";
 
 function Layout({ children }) {
   return (
@@ -67,6 +69,8 @@ createRoot(document.getElementById("root")).render(
               </CheckAuth>
             }
           />
+          <Route path="/terms" element={<Layout><Terms /></Layout>} />
+          <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

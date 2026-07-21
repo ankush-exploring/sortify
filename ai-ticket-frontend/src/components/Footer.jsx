@@ -13,11 +13,11 @@ export default function Footer() {
             <Link to="/privacy" className="hover:text-[var(--text-primary)]">Privacy</Link>
           </div>
           <div className="flex items-center gap-4">
-            <a href="mailto:support@sortify.app" className="hover:text-[var(--text-primary)]">
-              support@sortify.app
+            <a href="mailto:sortify.help@gmail.com" className="hover:text-[var(--text-primary)]">
+              sortify.help@gmail.com
             </a>
             <a
-              href="https://linkedin.com/in/ankush-exploring"
+              href="https://www.linkedin.com/in/ankush-vishwakarma-b48b1036b/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[var(--text-primary)]"

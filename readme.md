@@ -22,17 +22,9 @@
   <a href="#roadmap">Roadmap</a>
 </p>
 
-<!-- TODO: replace placeholder with real demo GIF -->
-<p align="center">
-  <img src="./docs/screenshots/demo-placeholder.svg" alt="Sortify demo — create ticket, AI triage, moderator assignment" width="800" />
-  <br />
-  <em>Demo GIF placeholder — see <code>docs/screenshots/README.md</code> for capture instructions.</em>
-</p>
-
 <details>
   <summary>Table of Contents</summary>
 
-  - [Demo](#demo)
   - [Features](#features)
   - [Tech Stack](#tech-stack)
   - [Architecture](#architecture)
@@ -47,29 +39,6 @@
   - [License & Acknowledgments](#license--acknowledgments)
 
 </details>
-
----
-
-## Demo
-
-<p align="center">
-  <img src="./docs/screenshots/demo-placeholder.svg" alt="Demo GIF placeholder" width="800" />
-</p>
-
-<table>
-  <tr>
-    <td><img src="./docs/screenshots/demo-placeholder.svg" alt="Light theme" width="380" /></td>
-    <td><img src="./docs/screenshots/demo-placeholder.svg" alt="Dark theme" width="380" /></td>
-  </tr>
-  <tr>
-    <td align="center">Light theme</td>
-    <td align="center">Dark theme</td>
-  </tr>
-</table>
-
-> **Note:** All images above are placeholders. Once real captures are recorded, drop them into
-> [`docs/screenshots/`](./docs/screenshots/) and update the `src` paths. See
-> [`docs/screenshots/README.md`](./docs/screenshots/README.md) for what to capture and how.
 
 ---
 

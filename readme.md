@@ -46,10 +46,10 @@
 
 | Icon | Feature | Description |
 |------|---------|-------------|
-| 🤖 | **AI-powered triage** | Auto-categorizes tickets, assigns priority (critical / high / medium / low), and generates helpful moderator notes via Google Gemini |
+| 🤖 | **AI-powered triage** | Auto-categorizes tickets, assigns priority (critical / high / medium / low), and generates helpful moderator notes via Groq AI (Llama 3) |
 | 🎯 | **Smart assignment** | Matches tickets to moderators whose skills best fit the issue; falls back to admin if no match |
 | 🔐 | **Role-based access** | Three tiers — User (submit tickets), Moderator (resolve tickets), Admin (manage users, roles, skills) |
-| ⚡ | **Async background jobs** | Ticket processing, AI analysis, and email notifications run via Inngest — no blocking |
+| ⚡ | **Background processing** | AI analysis runs inline without blocking the response — no queue system needed |
 | 📧 | **Automated emails** | Welcome email on signup, assignment notification to matched moderators (via Resend) |
 | 🌗 | **Light / dark theme** | Full monochrome theme toggle with `localStorage` persistence — no color accents, just grayscale |
 
@@ -80,7 +80,7 @@
 ### AI & Infra
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Google_Gemini-000000?style=for-the-badge&logo=googlegemini" />
+  <img src="https://img.shields.io/badge/Groq-000000?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Inngest-000000?style=for-the-badge&logo=inngest" />
   <img src="https://img.shields.io/badge/Resend-000000?style=for-the-badge" />
 </p>
@@ -96,7 +96,7 @@ flowchart LR
   C -->|store| D[MongoDB]
   C -->|background| E[AI Processing]
 
-  E -->|Gemini| F[Priority / Skills / Notes]
+  E -->|Groq AI| F[Priority / Skills / Notes]
   F --> C
 
   E -->|match by skill| G[Find Moderator]
@@ -112,7 +112,7 @@ flowchart LR
 
 1. User creates a ticket via the React frontend
 2. Express API stores it in MongoDB and triggers AI analysis in background
-3. Gemini AI generates priority, skill tags, and helpful notes
+3. Groq AI (Llama 3) generates priority, skill tags, and helpful notes
 4. System matches a moderator by skill (regex-based), falling back to admin
 5. Assigned moderator receives an email notification (if Resend is configured)
 6. Moderator views, updates, and resolves the ticket
@@ -127,7 +127,7 @@ flowchart LR
 |------|---------|---------|
 | Node.js | v14+ | Runtime |
 | MongoDB | any recent | Database |
-| Gemini API key | — | AI analysis (get from [Google AI Studio](https://aistudio.google.com/)) |
+| Groq API key | — | AI analysis (get from [Groq Console](https://console.groq.com/keys)) |
 | Resend API key | free tier | Email delivery (get from [Resend](https://resend.com)) |
 
 ### Backend setup
@@ -159,7 +159,7 @@ cp .env.sample .env
 | `MONGO_URI` | MongoDB connection string | `mongodb://localhost:27017/sortify` |
 | `JWT_SECRET` | Secret key for signing tokens | `your-secret-key` |
 | `RESEND_API_KEY` | Resend API key for email (get from [resend.com](https://resend.com)) | `re_...` |
-| `GEMINI_API_KEY` | Google Gemini API key | |
+| `GROQ_API_KEY` | Groq API key for AI analysis (get from [console.groq.com](https://console.groq.com/keys)) | |
 | `APP_URL` | Application base URL | `http://localhost:3000` |
 | `RESEND_FROM` | (Optional) Verified sender address | `Sortify <no-reply@yourdomain.com>` |
 
@@ -352,8 +352,8 @@ kill -9 <PID>
 
 ### AI processing errors
 
-- Verify `GEMINI_API_KEY` in `.env` is set and valid
-- Check Google AI Studio API quota and rate limits
+- Verify `GROQ_API_KEY` in `.env` is set and valid
+- Check Groq API quota and rate limits in [Groq Console](https://console.groq.com)
 - Ensure the request body contains both `title` and `description`
 
 ### Email not sending
@@ -398,7 +398,7 @@ npm run build
 Built with:
 
 - [Inngest](https://www.inngest.com/) — background job processing and event-driven workflows
-- [Google Gemini](https://deepmind.google/technologies/gemini/) — AI-powered ticket analysis
+- [Groq](https://groq.com/) — AI-powered ticket analysis (Llama 3 via Groq API)
 - [Resend](https://resend.com/) — email delivery API
 - [MongoDB](https://www.mongodb.com/) — database
 - [daisyUI](https://daisyui.com/) — UI component library for Tailwind CSS

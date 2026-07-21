@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/Express-5-000000?style=flat-square&logo=express" alt="Express 5" />
   <img src="https://img.shields.io/badge/MongoDB-000000?style=flat-square&logo=mongodb" alt="MongoDB" />
   <img src="https://img.shields.io/badge/Tailwind-4-000000?style=flat-square&logo=tailwindcss" alt="Tailwind v4" />
-  <img src="https://img.shields.io/badge/license-ISC-000000?style=flat-square" alt="License ISC" />
+  <img src="https://img.shields.io/badge/license-MIT-000000?style=flat-square" alt="License MIT" />
   <img src="https://img.shields.io/badge/PRs-welcome-000000?style=flat-square" alt="PRs welcome" />
 </p>
 
@@ -394,7 +394,7 @@ npm run build
 
 ## License & Acknowledgments
 
-**License:** ISC (see backend `package.json`). No formal license file exists.
+**License:** MIT. See [LICENSE](./LICENSE) file.
 
 Built with:
 

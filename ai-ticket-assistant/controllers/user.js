@@ -1,10 +1,47 @@
 import brcypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import VerificationCode from "../models/verificationCode.js";
+import { sendMail } from "../utils/mailer.js";
+
+export const sendVerificationCode = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: "Email is required" });
+
+  try {
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(400).json({ error: "Email already registered" });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await VerificationCode.deleteMany({ email });
+
+    await VerificationCode.create({
+      email,
+      code,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+    });
+
+    await sendMail(email, "Your Sortify verification code", `Your verification code is: ${code}\n\nThis code expires in 10 minutes.`);
+
+    return res.json({ message: "Verification code sent" });
+  } catch (error) {
+    console.error("sendVerificationCode error", error.message);
+    return res.status(500).json({ error: "Failed to send code" });
+  }
+};
 
 export const signup = async (req, res) => {
-  const { email, password, skills = [] } = req.body;
+  const { email, password, skills = [], code } = req.body;
   try {
+    if (!code) return res.status(400).json({ error: "Verification code is required" });
+
+    const record = await VerificationCode.findOne({ email, code });
+    if (!record) return res.status(400).json({ error: "Invalid or expired verification code" });
+    if (record.expiresAt < new Date()) return res.status(400).json({ error: "Verification code expired" });
+
+    await VerificationCode.deleteMany({ email });
+
     const hashed = await brcypt.hash(password, 10);
     const existing = await User.countDocuments();
     const role = existing === 0 ? "admin" : "user";

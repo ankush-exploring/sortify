@@ -95,6 +95,28 @@ export const getTickets = async (req, res) => {
   }
 };
 
+export const deleteTicket = async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    const isOwner = ticket.createdBy?.toString() === req.user._id.toString();
+    const isAdmin = req.user.role === "admin";
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ message: "Not authorized to delete this ticket" });
+    }
+
+    await Ticket.findByIdAndDelete(req.params.id);
+    return res.status(200).json({ message: "Ticket deleted" });
+  } catch (error) {
+    console.error("Error deleting ticket", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const getTicket = async (req, res) => {
   try {
     const user = req.user;
@@ -109,7 +131,7 @@ export const getTicket = async (req, res) => {
       ticket = await Ticket.findOne({
         createdBy: user._id,
         _id: req.params.id,
-      }).select("title description status createdAt");
+      }).select("title description status createdAt createdBy");
     }
 
     if (!ticket) {

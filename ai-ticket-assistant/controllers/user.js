@@ -22,7 +22,8 @@ export const sendVerificationCode = async (req, res) => {
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-    await sendMail(email, "Your Sortify verification code", `Your verification code is: ${code}\n\nThis code expires in 10 minutes.`);
+    sendMail(email, "Your Sortify verification code", `Your verification code is: ${code}\n\nThis code expires in 10 minutes.`)
+      .catch((err) => console.error("sendVerificationCode — email send failed (code still saved):", err.message));
 
     return res.json({ message: "Verification code sent" });
   } catch (error) {

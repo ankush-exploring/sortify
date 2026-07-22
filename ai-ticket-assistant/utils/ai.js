@@ -23,8 +23,10 @@ const analyzeTicket = async (ticket) => {
   "summary": "Short 1-2 sentence summary",
   "priority": "low" | "medium" | "high" | "critical",
   "helpfulNotes": "Technical explanation with useful tips",
-  "relatedSkills": ["Skill1", "Skill2"]
-}`,
+  "relatedSkills": ["networking", "linux", "security", "api", "database", "javascript", "react", "python", "docker", "devops", "frontend", "backend", "mobile", "testing", "performance"]
+}
+
+Pick relatedSkills ONLY from the list above — use short single-word tags that best match the ticket.`,
           },
           {
             role: "user",

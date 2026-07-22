@@ -94,7 +94,8 @@ export const getTickets = async (req, res) => {
     const user = req.user;
     let tickets = [];
     if (user.role !== "user") {
-      tickets = await Ticket.find({})
+      const filter = req.query.assignedToMe === "true" ? { assignedTo: user._id } : {};
+      tickets = await Ticket.find(filter)
         .populate("assignedTo", ["email", "_id"])
         .sort({ createdAt: -1 });
     } else {

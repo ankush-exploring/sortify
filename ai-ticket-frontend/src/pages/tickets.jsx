@@ -42,12 +42,20 @@ export default function Tickets() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title: "", description: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [myTickets, setMyTickets] = useState(false);
 
   const token = localStorage.getItem("token");
+  let user = localStorage.getItem("user");
+  if (user) user = JSON.parse(user);
+  const isModOrAdmin = user?.role !== "user";
 
   const fetchTickets = async () => {
+    setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/tickets`, {
+      const url = myTickets
+        ? `${import.meta.env.VITE_SERVER_URL}/api/tickets?assignedToMe=true`
+        : `${import.meta.env.VITE_SERVER_URL}/api/tickets`;
+      const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -61,7 +69,7 @@ export default function Tickets() {
     }
   };
 
-  useEffect(() => { fetchTickets(); }, []);
+  useEffect(() => { fetchTickets(); }, [myTickets]);
 
   useEffect(() => {
     const q = search.toLowerCase();
@@ -112,9 +120,15 @@ export default function Tickets() {
         </form>
       )}
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center gap-2">
         <input type="text" placeholder="Search tickets…" value={search} onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-3 py-2 text-sm rounded-md border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-[var(--text-primary)]" />
+          className="flex-1 px-3 py-2 text-sm rounded-md border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-[var(--text-primary)]" />
+        {isModOrAdmin && (
+          <button onClick={() => setMyTickets(!myTickets)}
+            className={`px-3 py-2 text-sm rounded-md whitespace-nowrap ${myTickets ? "bg-[var(--accent)] text-[var(--accent-text)]" : "border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
+            {myTickets ? "My tickets" : "All tickets"}
+          </button>
+        )}
       </div>
 
       {loading ? (

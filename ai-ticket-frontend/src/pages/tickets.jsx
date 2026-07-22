@@ -42,7 +42,7 @@ export default function Tickets() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title: "", description: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [myTickets, setMyTickets] = useState(false);
+  const [myTickets, setMyTickets] = useState(user?.role === "moderator");
 
   const token = localStorage.getItem("token");
   let user = localStorage.getItem("user");

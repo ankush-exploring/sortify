@@ -8,6 +8,8 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <span>&copy; {new Date().getFullYear()} Sortify. MIT License.</span>
             <span className="hidden sm:inline">&middot;</span>
+            <Link to="/docs" className="hover:text-[var(--text-primary)]">Docs</Link>
+            <span>&middot;</span>
             <Link to="/terms" className="hover:text-[var(--text-primary)]">Terms</Link>
             <span>&middot;</span>
             <Link to="/privacy" className="hover:text-[var(--text-primary)]">Privacy</Link>

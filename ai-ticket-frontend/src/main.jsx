@@ -13,6 +13,7 @@ import Signup from "./pages/signup.jsx";
 import Admin from "./pages/admin.jsx";
 import Terms from "./pages/Terms.jsx";
 import Privacy from "./pages/Privacy.jsx";
+import Docs from "./pages/Docs.jsx";
 
 function Layout({ children }) {
   return (
@@ -71,6 +72,7 @@ createRoot(document.getElementById("root")).render(
           />
           <Route path="/terms" element={<Layout><Terms /></Layout>} />
           <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
+          <Route path="/docs" element={<Layout><Docs /></Layout>} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

@@ -15,7 +15,7 @@ const fromAddress =
 export const sendMail = async (to, subject, text) => {
   if (!resend) {
     console.log(`Email skipped (no Resend key): ${subject} -> ${to}`);
-    return;
+    return { sent: false, reason: "Resend not configured" };
   }
   try {
     const { data, error } = await resend.emails.send({
@@ -26,12 +26,12 @@ export const sendMail = async (to, subject, text) => {
     });
     if (error) {
       console.error("Resend error", error);
-      throw error;
+      return { sent: false, reason: error.message };
     }
     console.log("Email sent:", data?.id);
-    return data;
+    return { sent: true, id: data?.id };
   } catch (error) {
     console.error("Mail error", error.message);
-    throw error;
+    return { sent: false, reason: error.message };
   }
 };

@@ -28,6 +28,10 @@ export const sendVerificationCode = async (req, res) => {
       console.log(`[DEV] Verification code for ${email}: ${code}`);
     }
 
+    if (mailResult?.etherealUrl) {
+      console.log(`[DEV] Preview email at ${mailResult.etherealUrl}`);
+    }
+
     return res.json({ message: "Verification code sent" });
   } catch (error) {
     console.error("sendVerificationCode error", error.message);

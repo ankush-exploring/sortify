@@ -3,6 +3,8 @@ import User from "../models/user.js";
 import analyzeTicket from "../utils/ai.js";
 import { sendMail } from "../utils/mailer.js";
 
+const APP_URL = process.env.APP_URL || "http://localhost:3000";
+
 export const createTicket = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -63,10 +65,22 @@ async function processTicket(ticketId) {
         await Ticket.findByIdAndUpdate(ticket._id, {
           assignedTo: moderator._id,
         });
+
         await sendMail(
           moderator.email,
-          "Ticket Assigned",
-          `A new ticket is assigned to you: ${ticket.title}`
+          "New Ticket Assigned — Sortify",
+          `A new ticket has been assigned to you:\n\nTitle: ${ticket.title}\nPriority: ${aiResponse.priority || "medium"}\n\nView it at: ${APP_URL}/tickets/${ticket._id}`
+        );
+      }
+
+      // Notify the ticket creator
+      const creator = await User.findById(ticket.createdBy);
+      if (creator) {
+        const assigneeName = moderator ? moderator.email : "an admin";
+        await sendMail(
+          creator.email,
+          "Your Ticket Has Been Processed — Sortify",
+          `Your ticket has been analyzed and assigned:\n\nTitle: ${ticket.title}\nPriority: ${aiResponse.priority || "medium"}\nAssigned to: ${assigneeName}\n\nView it at: ${APP_URL}/tickets/${ticket._id}`
         );
       }
     }

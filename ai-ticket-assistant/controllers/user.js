@@ -122,19 +122,6 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const testMail = async (req, res) => {
-  const { email } = req.body;
-  if (!email) return res.status(400).json({ error: "Email is required" });
-
-  const result = await sendMail(
-    email,
-    "Sortify Test Email",
-    "This is a test email from Sortify. If you received this, your SMTP is working."
-  );
-
-  return res.json(result);
-};
-
 export const getUsers = async (req, res) => {
   try {
     if (req.user.role !== "admin") {

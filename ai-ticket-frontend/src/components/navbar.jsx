@@ -3,8 +3,13 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function Navbar() {
   const token = localStorage.getItem("token");
-  let user = localStorage.getItem("user");
-  if (user) user = JSON.parse(user);
+  let user = null;
+  try {
+    const rawUser = localStorage.getItem("user");
+    if (rawUser && rawUser !== "undefined") user = JSON.parse(rawUser);
+  } catch (e) {
+    console.error("Failed to parse user in navbar:", e);
+  }
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
 

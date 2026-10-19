@@ -42,8 +42,13 @@ export default function TicketDetailsPage() {
   const [deleting, setDeleting] = useState(false);
 
   const token = localStorage.getItem("token");
-  let user = localStorage.getItem("user");
-  if (user) user = JSON.parse(user);
+  let user = null;
+  try {
+    const rawUser = localStorage.getItem("user");
+    if (rawUser && rawUser !== "undefined") user = JSON.parse(rawUser);
+  } catch (e) {
+    console.error("Failed to parse user in ticket:", e);
+  }
 
   useEffect(() => {
     const fetchTicket = async () => {

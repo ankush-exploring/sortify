@@ -35,6 +35,16 @@ function PriorityPill({ priority }) {
 }
 
 export default function Tickets() {
+  const token = localStorage.getItem("token");
+  let user = null;
+  try {
+    const rawUser = localStorage.getItem("user");
+    if (rawUser && rawUser !== "undefined") user = JSON.parse(rawUser);
+  } catch (e) {
+    console.error("Failed to parse user from localStorage:", e);
+  }
+  const isModOrAdmin = user?.role !== "user";
+
   const [tickets, setTickets] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,11 +53,6 @@ export default function Tickets() {
   const [form, setForm] = useState({ title: "", description: "" });
   const [submitting, setSubmitting] = useState(false);
   const [myTickets, setMyTickets] = useState(user?.role === "moderator");
-
-  const token = localStorage.getItem("token");
-  let user = localStorage.getItem("user");
-  if (user) user = JSON.parse(user);
-  const isModOrAdmin = user?.role !== "user";
 
   const fetchTickets = async () => {
     setLoading(true);

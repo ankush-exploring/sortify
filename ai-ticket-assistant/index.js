@@ -19,6 +19,17 @@ app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/tickets", ticketRoutes);
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "Sortify API is running",
+    endpoints: {
+      auth: "/api/auth",
+      tickets: "/api/tickets",
+    },
+  });
+});
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
